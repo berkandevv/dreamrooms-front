@@ -49,7 +49,13 @@ export default function AvailabilityPreview({
     : specialRanges.slice(0, 4)
 
   return (
-    <PanelCard title="Disponibilidad próxima">
+    <PanelCard
+      title={
+        selectedRoomType
+          ? `Disponibilidad · ${selectedRoomType.name}`
+          : 'Disponibilidad próxima'
+      }
+    >
       {!selectedRoomType && (
         <p className="text-sm text-secondary">
           Selecciona una habitación para ver los próximos 90 días.

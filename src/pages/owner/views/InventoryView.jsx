@@ -75,8 +75,22 @@ export default function InventoryView({
         <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
           {roomTypes.map((roomType) => (
             <article
-              className="overflow-hidden rounded-xl border border-outline-variant bg-surface-container-lowest shadow-[0_8px_24px_rgba(19,27,46,0.08)]"
+              aria-pressed={String(roomType.id) === String(selectedRoomTypeId)}
+              className={`cursor-pointer overflow-hidden rounded-xl border bg-surface-container-lowest text-left shadow-[0_8px_24px_rgba(19,27,46,0.08)] transition hover:border-primary focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 ${
+                String(roomType.id) === String(selectedRoomTypeId)
+                  ? 'border-primary ring-2 ring-primary/30'
+                  : 'border-outline-variant'
+              }`}
               key={roomType.id}
+              onClick={() => onRoomTypeChange(String(roomType.id))}
+              onKeyDown={(event) => {
+                if (event.key === 'Enter' || event.key === ' ') {
+                  event.preventDefault()
+                  onRoomTypeChange(String(roomType.id))
+                }
+              }}
+              role="button"
+              tabIndex={0}
             >
               {roomType.cover_image?.url && (
                 <img
@@ -121,6 +135,18 @@ export default function InventoryView({
                     )}
                   />
                 </div>
+
+                <p
+                  className={`mt-4 text-xs font-semibold ${
+                    String(roomType.id) === String(selectedRoomTypeId)
+                      ? 'text-primary'
+                      : 'text-secondary'
+                  }`}
+                >
+                  {String(roomType.id) === String(selectedRoomTypeId)
+                    ? 'Mostrando su disponibilidad abajo'
+                    : 'Pulsa para ver su disponibilidad'}
+                </p>
               </div>
             </article>
           ))}
